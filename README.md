@@ -1,1 +1,1 @@
-# Anki_Cards
+# anki-cards

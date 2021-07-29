@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+
+        <p>The test() method returns true if it finds a match, otherwise it returns false.</p>
+        <p>Click the button to search a string for the character "e".</p>
+
+        <button onclick="drawIntonation('LHHHHHHHHH')">Try it</button>
+
+        <canvas id="intonation" width="200" height="200"></canvas>
+
+        <script>
+            /**
+             *
+             * @param pattern {string}
+             */
+            function drawIntonation(pattern) {
+                console.log(pattern);
+                const c = document.getElementById("intonation");
+                const ctx = c.getContext("2d");
+
+                let inc = c.width / pattern.length;
+                let circRad = inc / 10; //TODO scale
+                let curr = 2 * circRad;
+
+                ctx.beginPath();
+                ctx.moveTo(curr, pattern[0] === 'L' ? curr + inc : curr);
+                ctx.fillStyle = 'black';
+
+                for (let c of pattern) {
+                    let y = (c.toUpperCase() === 'L' ? (2 * circRad) + inc : 2 * circRad);
+
+                    ctx.lineTo(curr, y);
+
+                    if (c.toLowerCase() === c) { // is lowercase
+                        ctx.stroke(); // finish old path
+                        ctx.closePath(); // close old path
+
+                        ctx.globalCompositeOperation = 'destination-out'; // set to erase mode
+
+                        ctx.beginPath(); // start new path
+                        ctx.moveTo(curr + circRad, y);
+                        ctx.arc(curr, y, circRad, 0, 2 * Math.PI, false); // draw clear circle
+                        ctx.moveTo(curr, y);
+                        ctx.fill(); // fill clear circle with clear
+                        ctx.closePath(); // close path
+
+                        ctx.globalCompositeOperation = 'source-over'; // set to normal mode
+
+                        ctx.beginPath(); //start new path
+                    }
+
+                    ctx.moveTo(curr + circRad, y);
+                    ctx.arc(curr, y, circRad, 0, 2 * Math.PI, false);
+                    ctx.moveTo(curr, y);
+
+                    if (c.toUpperCase() === c) { // is uppercase
+                        ctx.fill(); // only fill if uppercase, otherwise will just color over the erased part
+                    }
+
+                    curr += inc;
+                }
+                ctx.stroke();
+            }
+        </script>
+
+    </body>
+</html>
