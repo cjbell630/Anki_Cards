@@ -19,8 +19,8 @@ function isCombiningForm(char) {
 }
 
 /* REPLACE WITH YOUR FIELD NAMES */
-let word = "ジャックゃ"; // the word in kana
-const pattern = "LH"; // the pitch accent pattern of the word (using L, H, l, and h)
+let word = "にほんご"; // the word in kana
+const pattern = "LHHH"; // the pitch accent pattern of the word (using L, H, l, and h)
 
 /* SETTINGS */
 const primaryColor = 'white'; // the color that goes over the background
