@@ -73,7 +73,7 @@ grouping moras correctly, let me know!
 
 * If you want to stop the giant space from appearing on cards without pitch accent patterns, you can put this:
 
-    ```handlebars
+    ```markdown
     {{#Pitch Accent Pattern}}
         /*Paste Code Here*/
     {{/Pitch Accent Pattern}}
