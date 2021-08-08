@@ -25,7 +25,7 @@ const pattern = "LHHH"; // the pitch accent pattern of the word (using L, H, l, 
 /* SETTINGS */
 const primaryColor = 'white'; // the color that goes over the background
 const secondaryColor = '#303030'; // the color that goes over the primary color
-const circScale = 10;
+const circScale = 15;
 
 
 /* CODE */

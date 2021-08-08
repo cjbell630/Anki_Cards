@@ -25,7 +25,7 @@ Then, at the end (or anywhere as long as it's after the previous line), put the 
     /* SETTINGS */
     const primaryColor = "white", // the color that goes over the background
             secondaryColor = "#303030", // the color that goes over the primary color
-            circScale = 10; // the bigger this number is, the smaller the circles are, and vice versa
+            circScale = 5; // the bigger this number is, the smaller the circles are, and vice versa
 
     
     /* CODE */
