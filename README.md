@@ -103,6 +103,6 @@ grouping moras correctly, let me know!
 
 [0]: https://cjbell630.github.io/anki-cards/demo/pitch-accent-card.html
 
-[1]: images/anki-card-example.png
+[1]: res/images/anki-card-example.png
 
 [2]: https://cjbell630.github.io/anki-cards/demo/kanji-checker.html
