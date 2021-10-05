@@ -8,7 +8,8 @@
     <body style="background-color:#303030; color:white;">
         <h1>Kanji List</h1>
         着千葉九魚
-        <hr/><br/><br/><br/>
+        <hr/>
+        <br/><br/><br/>
 
         <h2>着く　/　つく</h2>
         <div class="kanji-check" data-kanji="着く" data-kana="つく">Something went wrong...</div>
@@ -37,6 +38,25 @@
         <h2>ペット</h2>
         <div class="kanji-check" data-kanji="" data-kana="ペット">Something went wrong...</div>
 
+        <!--
+        The following is a special trick I had to do to get things to work properly on Anki.
+
+        First off, Anki loads a single WebView per session, and never loads js files twice.
+        This means that any code in a js file set to run on load (ie. anything outside of a "function" block)
+        only gets called once, on the initial load.
+
+        A simple solution to this would simply be to put everything needed to be called on load in its own function,
+        then simply load the file, and call the function in two separate `<script></script>` blocks. However, Anki also
+        loads js files (and possibly blocks) asynchronously. This means that the script block containing the launch
+        function could be called before the js file, resulting in a `function not defined` error.
+
+        Based on a solution I found on Reddit for a similar problem [TODO: link] I have come up with the following:
+
+        Check if the js file has been loaded in yet. If it has, call the `checkElements` function. If it hasn't, create
+        a new script element with its source as the js file, and add it to the document.
+        The js file calls the `checkElements` as its final line, so there won't be any issues if it's called for the
+        first time.
+        -->
         <script>
             if (typeof checkElements == "undefined") {
                 let script = document.createElement('script');
