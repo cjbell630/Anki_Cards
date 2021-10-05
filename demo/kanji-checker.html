@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Kanji Checker Demo</title>
+    </head>
+
+    <body style="background-color:#303030; color:white;">
+        <h1>Kanji List</h1>
+        着千葉九魚
+        <hr/><br/><br/><br/>
+
+        <h2>着く　/　つく</h2>
+        <div class="kanji-check" data-kanji="着く" data-kana="つく">Something went wrong...</div>
+        <hr/>
+
+        <h2>勤める　/　つとめる</h2>
+        <div class="kanji-check" data-kanji="勤める" data-kana="つとめる">Something went wrong...</div>
+        <hr/>
+
+        <h2>千葉　/　ちば</h2>
+        <div class="kanji-check" data-kanji="千葉" data-kana="ちば">Something went wrong...</div>
+        <hr/>
+
+        <h2>九州　/　きゅうしゅう</h2>
+        <div class="kanji-check" data-kanji="九州" data-kana="きゅうしゅう">Something went wrong...</div>
+        <hr/>
+
+        <h2>魚　/　さかな</h2>
+        <div class="kanji-check" data-kanji="魚" data-kana="さかな">Something went wrong...</div>
+        <hr/>
+
+        <h2>鳥　/　とり</h2>
+        <div class="kanji-check" data-kanji="鳥" data-kana="とり">Something went wrong...</div>
+        <hr/>
+
+        <h2>ペット</h2>
+        <div class="kanji-check" data-kanji="" data-kana="ペット">Something went wrong...</div>
+
+        <script>
+            if (typeof checkElements == "undefined") {
+                let script = document.createElement('script');
+                script.src = "../script/kanji-checker.js";
+                script.async = false;
+                document.head.appendChild(script);
+            } else {
+                checkElements();
+            }
+        </script>
+
+    </body>
+</html>

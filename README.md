@@ -91,6 +91,11 @@ grouping moras correctly, let me know!
       smaller, and vice versa. I'd recommend using Anki's preview feature to play around with it until you find a size
       you like.
 
+
+```html
+<script>if("undefined"==typeof checkElements){let e=document.createElement("script");e.src="_kanji-checker.js",e.async=!1,document.head.appendChild(e)}else checkElements();</script>
+```
+
 [![wakatime](https://wakatime.com/badge/github/cjbell630/anki-cards.svg)](https://wakatime.com/badge/github/cjbell630/anki-cards)
 
 [0]: https://cjbell630.github.io/anki-cards/demo/pitch-accent-card.html
