@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>Ruby Text Editor</title>
+        <style>
+            .button {
+                border: none;
+            }
+
+            .result {
+                border-style: solid;
+                font-size: xxx-large;
+                height: 100px;
+                width: 35%
+            }
+        </style>
+    </head>
+    <h1>HTML Ruby Text Editor</h1>
+    <body style="background-color: #303030; color: white;">
+        <table>
+            <!-- furigana row -->
+            <tr id="furigana_row">
+                <th>Furigana</th>
+            </tr>
+
+            <!-- kanji row -->
+            <tr id="kanji_row">
+                <th>Kanji</th>
+            </tr>
+        </table>
+        <br>
+
+        <button id="clear_button" onclick="alert('Something went wrong.');">Clear</button>
+
+        <br><br><br>
+
+        <h3>RESULT</h3>
+        <div class="result" id="result"></div>
+
+        <br><br><br>
+
+        <button id="copy_element_button" onclick="alert('Something went wrong.');" disabled>Copy Element [TBA]</button>
+        <button id="copy_html_button" onclick="alert('Something went wrong.');">Copy Raw HTML</button>
+
+        <br><br><br>
+
+        <p style="font-size: xx-small">
+            I made this in like 30 mins simply for practical purposes to speed something up.
+            I might make it more user-friendly later.
+        </p>
+    </body>
+    <script>
+        const NUM_SECTS = 10;
+
+        let furiRow = document.getElementById("furigana_row");
+        let kanjiRow = document.getElementById("kanji_row");
+        for (let i = 0; i < NUM_SECTS; i++) {
+            let cell = furiRow.insertCell();
+            cell.innerHTML = `<input type="text" id="furi_${i}" oninput="updatePreview()">`;
+
+            cell = kanjiRow.insertCell();
+            cell.innerHTML = `<input type="text" id="kanji_${i}" oninput="updatePreview()">`;
+        }
+
+        function clear() {
+            console.log("clear");
+            let furiRowCells = document.getElementById("furigana_row").cells;
+            let kanjiRowCells = document.getElementById("kanji_row").cells;
+
+            for (let i = 1; i < NUM_SECTS + 1; i++) {
+                furiRowCells[i].getElementsByTagName("input")[0].value = "";
+                kanjiRowCells[i].getElementsByTagName("input")[0].value = "";
+                console.log(furiRowCells[i].getElementsByTagName("input")[0].value);
+            }
+        }
+
+        /**
+         * Updates the preview by looking through the text fields.
+         */
+        function updatePreview() {
+            let furiRowCells = document.getElementById("furigana_row").cells;
+            let kanjiRowCells = document.getElementById("kanji_row").cells;
+            let innerRubyHTML = ""; // the text to go between "<ruby></ruby>>"
+
+            // iterate through each pair of furigana and kanji (start at 1 bc of the row headers)
+            for (let i = 1; i < NUM_SECTS + 1; i++) {
+                let furiText = furiRowCells[i].getElementsByTagName("input")[0].value;
+                let kanjiText = kanjiRowCells[i].getElementsByTagName("input")[0].value;
+
+                if (furiText && kanjiText) { // if both have text
+                    innerRubyHTML += kanjiText + `<rp>(</rp><rt>${furiText}</rt><rp>)</rp>`;
+                } else if (furiText || kanjiText) { // if only one has text
+                    //TODO may cause problems if either is null
+                    // Add the text with an empty rt element to avoid shifting furigana or putting space in between chars
+                    innerRubyHTML += kanjiText + furiText + "<rt></rt>";
+                }
+            }
+
+            // display the results
+            document.getElementById("result").innerHTML = `<ruby>${innerRubyHTML}</ruby>`;
+        }
+
+        /**
+         * Copies edited Ruby text to clipboard.
+         * TODO figure out how to copy the element to clipboard.
+         *
+         * @param raw true to copy the element as HTML text, false to copy the element itself
+         */
+        function copyRuby(raw = true) {
+            navigator.clipboard.writeText(
+                raw ? document.getElementById("result").innerHTML :
+                    document.getElementById("result")
+            );
+        }
+
+        //add functions to clear button
+        document.getElementById("clear_button").onclick = function () {
+            clear();
+            updatePreview();
+        };
+
+        //add functions to copy element button
+        document.getElementById("copy_element_button").onclick = async function () {
+            //TODO make this a function (it's used twice)
+            copyRuby(false); // copy to clipboard
+
+            // display confirmation
+            this.innerText = "Copied to clipboard! ✔️";
+            this.style.borderStyle = "none";
+            this.style.background = "#4CAF50";
+
+            await new Promise(r => setTimeout(r, 3000)); // wait 3 seconds
+
+            // reset button
+            this.innerText = "Copy Element [TBA]";
+            this.style.borderStyle = "none";
+            this.style.background = "white";
+        };
+
+        //add functions to copy raw html button
+        document.getElementById("copy_html_button").onclick = async function () {
+            //TODO make this a function (it's used twice)
+            copyRuby(true); // copy to clipboard
+
+            // display confirmation
+            this.innerText = "Copied to clipboard! ✔️";
+            this.style.borderStyle = "none";
+            this.style.background = "#4CAF50";
+
+            await new Promise(r => setTimeout(r, 3000)); // wait 3 seconds
+
+            // reset button
+            this.innerText = "Copy Raw HTML";
+            this.style.borderStyle = "none";
+            this.style.background = "white";
+        };
+    </script>
+</html>
