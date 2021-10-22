@@ -11,11 +11,13 @@ This card draws a pitch accent pattern, including the kana in the drawing. To us
 put this line where you want the drawing to go:
 
 ```html
+
 <canvas id="pitch-accent" height="2000" width="2000" style="width: 100%; height: 100%"></canvas>
 ```
 
 Then, at the end (or anywhere as long as it's after the previous line), put the following:
 
+[comment]: <> (@formatter:off)
 ```html
 <script>
     /* REPLACE WITH YOUR FIELD NAMES */
@@ -32,6 +34,7 @@ Then, at the end (or anywhere as long as it's after the previous line), put the 
     function g(t){return"っッ".includes(t)}function f(t){return"ぁぃぅぇぉゃゅょァィゥェォャュョ".includes(t)}const c=document.getElementById("pitch-accent"),ctx=c.getContext("2d");let inc=c.width/(pattern.length-1+2/circScale),circRad=inc/circScale,curr=circRad;ctx.beginPath(),ctx.moveTo(curr,"L"===pattern[0]?curr+inc:curr),ctx.fillStyle=primaryColor,ctx.strokeStyle=primaryColor,ctx.lineWidth=2;for(let t of pattern){let c="L"===t.toUpperCase()?circRad+inc:circRad;ctx.lineTo(curr,c),t.toLowerCase()===t&&(ctx.stroke(),ctx.closePath(),ctx.globalCompositeOperation="destination-out",ctx.beginPath(),ctx.moveTo(curr+circRad,c),ctx.arc(curr,c,circRad,0,2*Math.PI,!1),ctx.moveTo(curr,c),ctx.fill(),ctx.closePath(),ctx.globalCompositeOperation="source-over",ctx.beginPath()),ctx.moveTo(curr+circRad,c),ctx.arc(curr,c,circRad,0,2*Math.PI,!1),ctx.moveTo(curr,c),t.toUpperCase()===t&&ctx.fill();let r="";if(0<word.length){let t=g(word[0]);r=word[0]+(1<word.length&&(t||f(word[1]))?word[1]+(2<word.length&&t&&f(word[2])?word[2]:""):"")}ctx.stroke(),ctx.closePath(),ctx.fillStyle=secondaryColor,ctx.strokeStyle=secondaryColor;let e=circRad*Math.sqrt(2)/r.length;ctx.font=e+"px MS Mincho",ctx.fillText(r,curr-r.length*(e/2),c+e/4),ctx.fillStyle=primaryColor,ctx.strokeStyle=primaryColor,ctx.beginPath(),ctx.moveTo(curr,c),word=word.substr(r.length),curr+=inc}ctx.stroke();
 </script>
 ```
+[comment]: <> (@formatter:on)
 
 In order for this code to work for your cards, you'll have to change a few things with what you just copied and pasted.
 Here's my card as an example:
@@ -86,6 +89,7 @@ grouping moras correctly, let me know!
         * The primary color is the color that goes directly over the background color.
         * The secondary color is the color that goes over the primary color. In my opinion, it looks best being the same
           as the background.
+        * [TODO: mention that ankidroid inverts colors]
     * `Scaling` - The text in the bubbles scales to the bubble size itself, but depending on your device, you may want
       to change that some. The value of `circScale` changes this, but it's inverted. So increasing makes the circles
       smaller, and vice versa. I'd recommend using Anki's preview feature to play around with it until you find a size
@@ -95,9 +99,24 @@ grouping moras correctly, let me know!
 
 [Click here for  a demo][2]
 
+This card displays a word in kanji only if every kanji in the word is in a list of known kanji.
+
+Here's how to use it:
+
+1. Download the latest version of [_kanji-checker.min.js][3] [TODO: change link to release version]
+2. Open it in a text editor (such as Notepad) and in the first line:
+    ```js
+    const LEARNED_KANJI = "REPLACE ME";
+    ```
+   Replace `REPLACE ME` with all of the kanji you know. The files in [res][4] might help!
+3. Put that file in your Anki media folder. ([see here for how to find it][5])
+4. To be continued [TODO]
+
+[comment]: <> (@formatter:off)
 ```html
 <script>if("undefined"==typeof checkElements){let e=document.createElement("script");e.src="_kanji-checker.js",e.async=!1,document.head.appendChild(e)}else checkElements();</script>
 ```
+[comment]: <> (@formatter:on)
 
 [![wakatime](https://wakatime.com/badge/github/cjbell630/anki-cards.svg)](https://wakatime.com/badge/github/cjbell630/anki-cards)
 
@@ -106,3 +125,9 @@ grouping moras correctly, let me know!
 [1]: res/images/anki-card-example.png
 
 [2]: https://cjbell630.github.io/anki-cards/demo/kanji-checker.html
+
+[3]: minified/_kanji-checker.min.js
+
+[4]: res
+
+[5]: https://docs.ankiweb.net/files.html#file-locations

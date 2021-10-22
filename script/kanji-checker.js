@@ -5,6 +5,7 @@ const KANJI_REGEX = /[一-龯]/gm;
 
 /**
  * Checks whether or not the provided text has unknown kanji in it.
+ *
  * @param text {string} the text to check
  * @returns {boolean} true if all the kanji in the text have been learned, false if not
  */
