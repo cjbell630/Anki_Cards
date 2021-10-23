@@ -58,6 +58,18 @@
     </body>
     <script>
         /**
+         * Escapes HTML in text to avoid XSS.
+         *
+         * @param text {string} the text to sanitize
+         * @returns {string} the text with all HTML-affecting elements escaped
+         */
+        function sanitize(text) {
+            let div = document.createElement("div");
+            div.appendChild(document.createTextNode(text));
+            return div.innerHTML;
+        }
+
+        /**
          * Clears the contents of all of the input boxes.
          */
         function clear() {
@@ -68,7 +80,6 @@
             for (let i = 1; i < NUM_SECTS + 1; i++) {
                 furiRowCells[i].getElementsByTagName("input")[0].value = "";
                 kanjiRowCells[i].getElementsByTagName("input")[0].value = "";
-                console.log(furiRowCells[i].getElementsByTagName("input")[0].value);
             }
         }
 
@@ -82,8 +93,8 @@
 
             // iterate through each pair of furigana and kanji (start at 1 bc of the row headers)
             for (let i = 1; i < NUM_SECTS + 1; i++) {
-                let furiText = furiRowCells[i].getElementsByTagName("input")[0].value;
-                let kanjiText = kanjiRowCells[i].getElementsByTagName("input")[0].value;
+                let furiText = sanitize(furiRowCells[i].getElementsByTagName("input")[0].value);
+                let kanjiText = sanitize(kanjiRowCells[i].getElementsByTagName("input")[0].value);
 
                 if (furiText && kanjiText) { // if both have text
                     innerRubyHTML += kanjiText + `<rp>(</rp><rt>${furiText}</rt><rp>)</rp>`;
