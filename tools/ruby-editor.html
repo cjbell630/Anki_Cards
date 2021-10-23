@@ -4,10 +4,6 @@
         <meta charset="UTF-8">
         <title>Ruby Text Editor</title>
         <style>
-            .button {
-                border: none;
-            }
-
             .result {
                 border-style: solid;
                 font-size: xxx-large;
@@ -38,12 +34,13 @@
         <h3>RESULT</h3>
         <div class="result" id="result"></div>
 
-        <br><br><br>
+        <br><br>
+        <div id="copy_buttons">
+            <button id="copy_element_button" onclick="alert('Something went wrong.');">Copy</button>
+            <button id="copy_html_button" onclick="alert('Something went wrong.');">Copy Raw HTML</button>
+        </div>
 
-        <button id="copy_element_button" onclick="alert('Something went wrong.');" disabled>Copy Element [TBA]</button>
-        <button id="copy_html_button" onclick="alert('Something went wrong.');">Copy Raw HTML</button>
-
-        <br><br><br>
+        <br><br>
 
         <p style="font-size: xx-small">
             I made this in like 30 mins simply for practical purposes to speed something up.
@@ -51,18 +48,9 @@
         </p>
     </body>
     <script>
-        const NUM_SECTS = 10;
-
-        let furiRow = document.getElementById("furigana_row");
-        let kanjiRow = document.getElementById("kanji_row");
-        for (let i = 0; i < NUM_SECTS; i++) {
-            let cell = furiRow.insertCell();
-            cell.innerHTML = `<input type="text" id="furi_${i}" oninput="updatePreview()">`;
-
-            cell = kanjiRow.insertCell();
-            cell.innerHTML = `<input type="text" id="kanji_${i}" oninput="updatePreview()">`;
-        }
-
+        /**
+         * Clears the contents of all of the input boxes.
+         */
         function clear() {
             console.log("clear");
             let furiRowCells = document.getElementById("furigana_row").cells;
@@ -98,62 +86,95 @@
             }
 
             // display the results
-            document.getElementById("result").innerHTML = `<ruby>${innerRubyHTML}</ruby>`;
+            // (if &nbsp; is not added, for some reason a rendering of `[KANJI]<rt>[FURI]</rt><br>`
+            // will be pasted instead, at least for word and Anki)
+            document.getElementById("result").innerHTML = `<ruby>${innerRubyHTML}</ruby>&nbsp;`;
         }
 
         /**
-         * Copies edited Ruby text to clipboard.
-         * TODO figure out how to copy the element to clipboard.
+         * Copies the Ruby text to clipboard.
          *
-         * @param raw true to copy the element as HTML text, false to copy the element itself
+         * @param raw {boolean} true to copy the element as HTML text, false to copy the formatted element itself
          */
         function copyRuby(raw = true) {
-            navigator.clipboard.writeText(
-                raw ? document.getElementById("result").innerHTML :
-                    document.getElementById("result")
-            );
+            if (raw) {
+                let text = document.getElementById("result").innerHTML;
+
+                // just in case, for some reason, the user actually typed "&nbsp;",
+                // check if it's at the end and trim it (rather than using replace())
+                if (text.endsWith("&nbsp;")) {
+                    text = text.substr(0, text.length - 6);
+                }
+                navigator.clipboard.writeText(text);
+            } else {
+                //based on https://stackoverflow.com/a/48554118/12861567
+
+                // get THE window selection object (the thing the user modifies when using the blue highlight)
+                let selection = window.getSelection();
+                selection.removeAllRanges(); // un-highlight anything the user has highlighted
+
+                let range = document.createRange(); // create an empty range
+                range.selectNodeContents(document.getElementById("result")); // select the CONTENTS of the results div
+                selection.addRange(range); // highlight it
+
+                document.execCommand('copy'); // effectively press CTRL+C for the user
+                window.getSelection().removeAllRanges(); // un-highlight it
+            }
         }
 
-        //add functions to clear button
+        /**
+         * Change the button appearance to inform the user of a successful copy.
+         *
+         * @param {HTMLElement} buttonElem the button to change
+         * @returns {Promise<void>} idrk tbh just await it if it's called in an async function
+         */
+        async function showCopyButtonConfirm(buttonElem) {
+            let defaultText = buttonElem.innerText; // store whatever text is currently shown on the button
+
+            // change button appearance
+            buttonElem.disabled = true; // disable the button
+            buttonElem.innerText = "Copied to clipboard! ✔️";
+            buttonElem.style.borderStyle = "none"; // remove the border
+            buttonElem.style.background = "#4CAF50"; // set the button color to green
+            buttonElem.style.color = "white"; // set the text color to white
+
+            await new Promise(r => setTimeout(r, 3000)); // wait 3 seconds
+
+            // reset button appearance
+            buttonElem.disabled = false; // enable it
+            buttonElem.innerText = defaultText; // set the text back to what it was before
+            buttonElem.style.removeProperty("border-style"); // remove the border style property (bc it causes problems)
+            buttonElem.style.removeProperty("background"); // remove the background property (bc it causes problems)
+            buttonElem.style.color = "black"; // reset the text color
+        }
+
+        /* add cells to the Furigana and Kanji input tables */
+        const NUM_SECTS = 10;
+
+        let furiRow = document.getElementById("furigana_row");
+        let kanjiRow = document.getElementById("kanji_row");
+        // add NUM_SECTS pairs in each row
+        for (let i = 0; i < NUM_SECTS; i++) {
+            let cell = furiRow.insertCell();
+            cell.innerHTML = `<input type="text" id="furi_${i}" oninput="updatePreview()">`;
+
+            cell = kanjiRow.insertCell();
+            cell.innerHTML = `<input type="text" id="kanji_${i}" oninput="updatePreview()">`;
+        }
+
+        /* add functions to clear button */
         document.getElementById("clear_button").onclick = function () {
             clear();
             updatePreview();
         };
 
-        //add functions to copy element button
-        document.getElementById("copy_element_button").onclick = async function () {
-            //TODO make this a function (it's used twice)
-            copyRuby(false); // copy to clipboard
-
-            // display confirmation
-            this.innerText = "Copied to clipboard! ✔️";
-            this.style.borderStyle = "none";
-            this.style.background = "#4CAF50";
-
-            await new Promise(r => setTimeout(r, 3000)); // wait 3 seconds
-
-            // reset button
-            this.innerText = "Copy Element [TBA]";
-            this.style.borderStyle = "none";
-            this.style.background = "white";
-        };
-
-        //add functions to copy raw html button
-        document.getElementById("copy_html_button").onclick = async function () {
-            //TODO make this a function (it's used twice)
-            copyRuby(true); // copy to clipboard
-
-            // display confirmation
-            this.innerText = "Copied to clipboard! ✔️";
-            this.style.borderStyle = "none";
-            this.style.background = "#4CAF50";
-
-            await new Promise(r => setTimeout(r, 3000)); // wait 3 seconds
-
-            // reset button
-            this.innerText = "Copy Raw HTML";
-            this.style.borderStyle = "none";
-            this.style.background = "white";
-        };
+        /* add functions to copy buttons */
+        let buttons = document.getElementById("copy_buttons").getElementsByTagName("button")
+        for (let i = 0; i < buttons.length; i++) { // for every button in the copy_buttons div
+            buttons[i].onclick = function () {
+                copyRuby(buttons[i].id === "copy_html_button"); // copy to clipboard
+                showCopyButtonConfirm(this); // display confirmation
+            }
+        }
     </script>
 </html>
