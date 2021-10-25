@@ -22,7 +22,7 @@ once you learn the kanji for it.
 Allows you to edit Ruby text (called furigana for Japanese words) that can be copied directly into Anki. It looks like
 this:
 
-<span style="font-size:4em;">
+<span style="font-size:xxx-large;">
     <ruby>日<rp>(</rp><rt>に</rt><rp>)</rp>本<rp>(</rp><rt>ほん</rt><rp>)</rp>語<rp>(</rp><rt>ご</rt><rp>)</rp></ruby>
 </span>
 

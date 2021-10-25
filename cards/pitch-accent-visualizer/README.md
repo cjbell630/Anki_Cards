@@ -91,4 +91,4 @@ grouping moras correctly, let me know!
       you like.
 
 [0]: https://cjbell630.github.io/anki-cards/cards/pitch-accent-visualizer
-[1]: res/images/anki-card-example.png
+[1]: ../../res/images/anki-card-example.png
