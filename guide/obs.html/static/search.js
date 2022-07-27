@@ -16,7 +16,7 @@ function LoadSearchData(){
 
     if (gzip_hash != search_hash || !search_data){
         // refresh data
-        GzipUnzipLocalFile('/obs.html/data/search.json.gzip').then(data => {
+        GzipUnzipLocalFile('/anki-cards/guide/obs.html/data/search.json.gzip').then(data => {
             SEARCH_DATA = JSON.parse(data);
             window.localStorage.setItem('search_data', data);
             window.localStorage.setItem('search_hash', gzip_hash);

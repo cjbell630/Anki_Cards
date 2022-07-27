@@ -1,7 +1,7 @@
 // DYNAMIC
 ///////////////////////////////////////////////////////////////////////////////
-import * as grapher_3d from '/obs.html/static/graphers/3d.js';
-import * as grapher_2d from '/obs.html/static/graphers/2d.js';
+import * as grapher_3d from '/anki-cards/guide/obs.html/static/graphers/3d.js';
+import * as grapher_2d from '/anki-cards/guide/obs.html/static/graphers/2d.js';
 
 var graphers = [
 	{'id': '3d', 'name': '3d', 'module': grapher_3d},

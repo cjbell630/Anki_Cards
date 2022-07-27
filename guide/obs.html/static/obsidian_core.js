@@ -6,10 +6,10 @@ var toc_pane = 1;
 var mermaid_enabled = 1;
 var toc_pane_div = "right_pane_content";
 var content_pane_div = "left_pane_content";
-var html_url_prefix = "";
+var html_url_prefix = "/anki-cards/guide";
 var documentation_mode = 1;
 var tab_mode = !no_tab_mode;
-var gzip_hash = '98913624453963323564049532423188665354'                       // used to check whether the localStorage data is stale
+var gzip_hash = '228712493966682012537100096473814964825'                       // used to check whether the localStorage data is stale
 
 
 // Onloads
@@ -347,7 +347,7 @@ function get_graph_data(){
     return get_html_url_prefix()+'/obs.html/data/graph.json';
 }
 function get_html_url_prefix(){
-    return ''  // this value is replaced by the actual url prefix when compiled
+    return '/anki-cards/guide'  // this value is replaced by the actual url prefix when compiled
 }
 
 function signal_js_enabled(container){
