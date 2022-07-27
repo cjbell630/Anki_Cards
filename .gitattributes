@@ -1,1 +1,3 @@
 *.min.js linguist-generated
+guide/* linguist-generated
+guide/obs.html/* linguist-vendored
