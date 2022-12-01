@@ -1,6 +1,7 @@
-const LEARNED_KANJI = "着千葉九魚";
-const CLASS_NAME = "kanji-check";
-
+const RW_KANJI = "着千葉九魚";
+const R_KANJI = RW_KANJI + "着千葉九魚";
+const RW_CLASS_NAME = "kanji-rw";
+const R_CLASS_NAME = "kanji-r";
 const KANJI_REGEX = /[一-龯]/gm;
 
 /**
@@ -9,16 +10,24 @@ const KANJI_REGEX = /[一-龯]/gm;
  * @param text {string} the text to check
  * @returns {boolean} true if all the kanji in the text have been learned, false if not
  */
-function checkKanji(text) {
+function checkKanji(text, kanji_string) {
     const matches = text.matchAll(KANJI_REGEX);
 
     for (const match of matches) {
-        if (!LEARNED_KANJI.includes(match[0])) { // if the current kanji is not in the list of learned kanji
+        if (!kanji_string.includes(match[0])) { // if the current kanji is not in the list of learned kanji
             return false;
         }
     }
 
     return true;
+}
+
+function checkElement(elem, kanji_string) {
+    elem.innerHTML = (
+        elem.dataset.kanji !== "" &&
+        checkKanji(elem.dataset.kanji, kanji_string) ? elem.dataset.kanji :
+            elem.dataset.kana
+    );
 }
 
 /**
@@ -31,13 +40,8 @@ function checkKanji(text) {
  * `data-kana` - the kana of the word
  */
 function checkElements() {
-    [...document.getElementsByClassName(CLASS_NAME)].forEach(elem => {
-        elem.innerHTML = (
-            elem.dataset.kanji !== "" &&
-            checkKanji(elem.dataset.kanji) ? elem.dataset.kanji :
-                elem.dataset.kana
-        );
-    });
+    [...document.getElementsByClassName(RW_CLASS_NAME)].forEach(elem => checkElement(elem, RW_KANJI));
+    [...document.getElementsByClassName(R_CLASS_NAME)].forEach(elem => checkElement(elem, R_KANJI));
 }
 
 checkElements();

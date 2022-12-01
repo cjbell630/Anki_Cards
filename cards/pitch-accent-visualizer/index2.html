@@ -6,19 +6,39 @@
     </head>
 
     <body style="background-color:#303030;">
+        <script>document.documentElement.setAttribute("lang", "ja");</script>
+
+        <h1>WRITE</h1>
+        <hr>
+        </br>
+        {{English}}</br>
+
+        </br></br>
+        <div class="kanji-check" data-kanji="{{Kanji}}" data-kana="{{Kana}}">Something went wrong...</div>
+
+        </br>
+        <hr/>
+        </br>
+        {{Audio}}
+        </br>
+        </br>
+        <canvas id="pitch-accent" height="1000" width="2000" style="width: 100%; height: 50%"></canvas>
+        </br>
+
+        {{#Notes}}
+        Notes: {{Notes}}
+        {{/Notes}}
+
+        {{#Pitch Accent Pattern}}
+        <script src="pitch-accent.js"></script>
+
+        <script>
+            draw("にほんご", "LHHH");
+        </script>
+        {{/Pitch Accent Pattern}}
+
         <input type="range" min="10" max="100" value="50" onchange="updateWidth(this.value)">
         <input type="range" min="10" max="100" value="50" onchange="updateHeight(this.value)">
-
-        <hr>
-
-        <!-- the height and width attributes are the number of pixels to draw on;
-        when the style is set based on screen size, these pixels are scaled to match the screen, making it blurry.
-        So, set the "virtual size" really high, and using the same aspect ratio of the style size, to make it
-        not blurry or stretched.-->
-        <canvas id="pitch-accent" height="2000" width="2000"
-                style="width: 100%; height: 100%;border: 1px solid black;"></canvas>
-
-        <script src="pitch-accent.js"></script>
 
     </body>
 
