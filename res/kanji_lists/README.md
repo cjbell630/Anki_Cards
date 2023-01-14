@@ -53,6 +53,8 @@ This is based on the 6th Edition, so if you don't have that exact version it may
 |   11   | 兆桃眺犬状黙然荻狩猫牛特告先洗                                                               |
 |   12   | 介界茶合塔王玉宝珠現狂皇呈全栓理主注柱金銑鉢銅釣針銘鎮                                       |
 |   13   | 道導辻迅造迫逃辺巡車連軌輸前各格略客額夏処条落                                               |
+|   14   | 冗軍輝運冠夢坑高享塾熟亭京涼景鯨舎周週士吉壮荘売                                               |
+|   15   | 学覚栄書津牧攻敗枚故敬言警計獄訂討訓詔詰話詠詩語読調談諾諭                               |
 
 [1]: genki_kanji.txt
 [2]: heisig_newest_incomplete.txt
