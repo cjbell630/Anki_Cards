@@ -1,6 +1,6 @@
-const RW_KANJI = "着千葉九魚";
-const R_KANJI = RW_KANJI + "着千葉九魚";
-const RW_CLASS_NAME = "kanji-rw";
+const W_KANJI = "着千葉九魚";
+const R_KANJI = "着千葉九魚";
+const W_CLASS_NAME = "kanji-w";
 const R_CLASS_NAME = "kanji-r";
 const KANJI_REGEX = /[一-龯]/gm;
 
@@ -40,7 +40,7 @@ function checkElement(elem, kanji_string) {
  * `data-kana` - the kana of the word
  */
 function checkElements() {
-    [...document.getElementsByClassName(RW_CLASS_NAME)].forEach(elem => checkElement(elem, RW_KANJI));
+    [...document.getElementsByClassName(W_CLASS_NAME)].forEach(elem => checkElement(elem, W_KANJI));
     [...document.getElementsByClassName(R_CLASS_NAME)].forEach(elem => checkElement(elem, R_KANJI));
 }
 
